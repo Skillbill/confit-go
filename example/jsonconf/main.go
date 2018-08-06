@@ -33,8 +33,9 @@ type AuthCfg struct {
 func loadConfig(buf *Config) error {
 	id := os.Getenv("CONFIT_REPOID")
 	secret := os.Getenv("CONFIT_REPOSECRET")
+	ref := os.Getenv("CONFIT_REPOREF") // we can use specific configurations using git tags
 	rsc := os.Getenv("CONFIT_RESOURCE")
-	c := confit.Client{RepoId: id, Secret: secret}
+	c := confit.Client{RepoId: id, Secret: secret, Ref: ref}
 	p, err := c.LoadByPath(rsc)
 	if err != nil {
 		return err
