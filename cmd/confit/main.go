@@ -11,10 +11,12 @@ import (
 	"os"
 )
 
+var ref string
 var repoSecret string
 var isAlias bool
 
 func init() {
+	flag.StringVar(&ref, "r", "", "ref")
 	flag.StringVar(&repoSecret, "s", "", "repo secret")
 	flag.BoolVar(&isAlias, "a", false, "use alias")
 	flag.Usage = func() {
@@ -32,7 +34,7 @@ func main() {
 		flag.Usage()
 		os.Exit(1)
 	}
-	client := confit.Client{RepoId: repoId, Secret: repoSecret}
+	client := confit.Client{RepoId: repoId, Secret: repoSecret, Ref: ref}
 	load := client.LoadByPath
 	if isAlias {
 		load = client.LoadByAlias

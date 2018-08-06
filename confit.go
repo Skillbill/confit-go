@@ -16,6 +16,7 @@ var (
 type Client struct {
 	RepoId string
 	Secret string
+	Ref    string
 	Client http.Client
 }
 
@@ -32,11 +33,15 @@ func init() {
 }
 
 func (c Client) buildURL(s string, isAlias bool) string {
+	var ref string
 	kind := "/path/"
 	if isAlias {
 		kind = "/alias/"
 	}
-	return _proto + "://" + _hostname + ":" + _port + "/api/repo/" + c.RepoId + kind + s
+	if c.Ref != "" {
+		ref = "?ref=" + c.Ref
+	}
+	return _proto + "://" + _hostname + ":" + _port + "/api/repo/" + c.RepoId + kind + s + ref
 }
 
 func (c Client) load(url string) ([]byte, error) {
